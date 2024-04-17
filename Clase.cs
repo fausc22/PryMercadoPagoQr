@@ -26,7 +26,7 @@ namespace PryMercadoPagoQr
 {
     public class Clase
     {
-        private const string baseUrl = "https://api.mercadopago.com/instore/qr/seller/collectors/1772005205/pos/SUC002CAJA001/orders?access_token=TEST-7037479340314345-041615-34c3f862f610d2b370e1b8f704d85249-1772005205"; // URL de la solicitud GET
+        
         bool pagoCompletado = false; // Variable para controlar si el pago ha sido completado
         private int dotCount = 0;
         private string external_id_form = string.Empty;
@@ -341,9 +341,10 @@ namespace PryMercadoPagoQr
 
 
 
-        public async Task VerificarEstadoPagoAsync(int estado)
+        public async Task<bool> VerificarEstadoPagoAsync(int userId, string externalId, string token)
         {
-            
+            var url = "https://api.mercadopago.com/instore/qr/seller/collectors/" + userId + "/pos/" + externalId +
+                "/orders?access_token=" + token;
             bool EstadoPago = false;
             // Realizar solicitudes GET periódicas
             while (!EstadoPago)
@@ -352,7 +353,7 @@ namespace PryMercadoPagoQr
                 {
                     using (var client = new HttpClient())
                     {
-                        var response = await client.GetAsync(baseUrl);
+                        var response = await client.GetAsync(url);
                         if (response.IsSuccessStatusCode)
                         {
                             //// Pago sigue en proceso
@@ -376,8 +377,9 @@ namespace PryMercadoPagoQr
                 }
 
                 // Esperar un tiempo antes de la siguiente verificación
-                
+                await Task.Delay(TimeSpan.FromSeconds(3)); // Esperar 10 segundos entre solicitudes
             }
+            return EstadoPago;
 
             
             
@@ -385,8 +387,9 @@ namespace PryMercadoPagoQr
         }
 
 
-        public static async Task CancelarCobro(string token, int userId, string externalStoreId, bool CobroCancelado)
+        public static async Task<bool> CancelarCobro(string token, int userId, string externalStoreId)
         {
+            bool CobroCancelado = false;
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
@@ -404,6 +407,7 @@ namespace PryMercadoPagoQr
                     MessageBox.Show("ERROR AL CANCELAR EL PAGO");
                 }
             }
+            return CobroCancelado;
         }
 
 

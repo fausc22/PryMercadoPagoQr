@@ -70,6 +70,7 @@
             // 
             this.lblProceso.AutoSize = true;
             this.lblProceso.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProceso.ForeColor = System.Drawing.Color.Blue;
             this.lblProceso.Location = new System.Drawing.Point(255, 242);
             this.lblProceso.Name = "lblProceso";
             this.lblProceso.Size = new System.Drawing.Size(0, 29);
@@ -275,7 +276,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 550);
+            this.ClientSize = new System.Drawing.Size(537, 591);
             this.Controls.Add(this.gpDatosSucursal);
             this.Controls.Add(this.lblNombreSucursal);
             this.Controls.Add(this.gpSucursal);

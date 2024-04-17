@@ -54,6 +54,8 @@ namespace PryMercadoPagoQr
             string externalId = selectedItem.external_id;
             string token = txtToken.Text;
             decimal Monto = Decimal.Parse(txtMonto.Text);
+            cmbCaja.Enabled = false;
+            txtMonto.Enabled = false;
             bool CobroEnviado = await Clase.EnviarCobro(userId, externalStoreId, externalId, token, Monto);
 
             
@@ -65,17 +67,24 @@ namespace PryMercadoPagoQr
                 button1.Enabled = false;
                 btnCancelarPago.Enabled = true;
                 //lblProceso.Text == "Pago en proceso...";
-                await VerificarEstadoPagoAsync(estadoPago);
+                bool SePago = await cls.VerificarEstadoPagoAsync(userId, externalStoreId, token);
 
-                if (estadoPago == true)
+                if (SePago == true)
                 {
-                    timerProceso.Enabled = false;
-                    lblProceso.ForeColor = Color.Green;
-                    lblProceso.Text = "Pago completado con éxito";
-                    button1.Enabled = true;
+                    if (lblProceso.Text != "PAGO CANCELADO")
+                    {
+                        timerProceso.Enabled = false;
+                        lblProceso.ForeColor = Color.Green;
+                        lblProceso.Text = "Pago completado con éxito";
+                    }
+                    
+                    
                     btnCancelarPago.Enabled = false;
-                    txtMonto.Enabled = false;
+                    txtMonto.Enabled = true;
+                    txtMonto.Text = "";
                     cmbCaja.SelectedIndex = -1;
+                    cmbCaja.Enabled = true;
+                    
                 }
                 else
                 {
@@ -197,9 +206,12 @@ namespace PryMercadoPagoQr
                 externalIdCaja_form = selectedItem.external_id;
                 userIdCaja_form = selectedItem.user_id;
                 txtMonto.Enabled = true;
+                lblProceso.Visible = false;
+                lblProceso.ForeColor = Color.Blue;
 
                 
             }
+            
         }
 
         private async void btnCancelarPago_Click(object sender, EventArgs e)
@@ -210,15 +222,24 @@ namespace PryMercadoPagoQr
             string externalId = selectedItem.external_id;
             string token = txtToken.Text;
             decimal Monto = Decimal.Parse(txtMonto.Text);
-            bool PagoCancelado = false;
+            
 
-            await Clase.CancelarCobro(token, userId, externalStoreId, PagoCancelado);
+            bool PagoCancelado = await Clase.CancelarCobro(token, userId, externalStoreId);
 
             if (PagoCancelado == true)
             {
+                timerProceso.Enabled = false;
+
                 lblProceso.ForeColor = Color.Red;
                 lblProceso.Text = "PAGO CANCELADO";
                 btnCancelarPago.Enabled = false;
+                cmbCaja.SelectedIndex = -1;
+                txtMonto.Text = "";
+                
+            }
+            else
+            {
+                return;
             }
         }
 
