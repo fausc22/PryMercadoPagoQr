@@ -20,7 +20,7 @@ using static PryMercadoPagoQr.Clase;
 
 namespace PryMercadoPagoQr
 {
-    public partial class Form1 : Form
+    public partial class frmQRFijo : Form
     {
         private const string baseUrl = "https://api.mercadopago.com/instore/qr/seller/collectors/1772005205/pos/SUC002CAJA001/orders?access_token=TEST-7037479340314345-041615-34c3f862f610d2b370e1b8f704d85249-1772005205"; // URL de la solicitud GET
         bool pagoCompletado = false; // Variable para controlar si el pago ha sido completado
@@ -31,7 +31,7 @@ namespace PryMercadoPagoQr
         string externalIdCaja_form = string.Empty;
         int userIdCaja_form = 0;
         Clase cls = new Clase();
-        public Form1()
+        public frmQRFijo()
         {
             InitializeComponent();
         }

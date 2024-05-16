@@ -1,6 +1,6 @@
 ﻿namespace PryMercadoPagoQr
 {
-    partial class Form1
+    partial class frmQRFijo
     {
         /// <summary>
         /// Variable del diseñador necesaria.

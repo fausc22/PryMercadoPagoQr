@@ -63,11 +63,14 @@ namespace PryMercadoPagoQr
             public string template_image { get; set; }
         }
 
+
+
+
         public class ComboBoxItemData
         {
             public string name { get; set; }
             public string external_store_id { get; set; }
-            public string external_id{ get; set; }
+            public string external_id { get; set; }
             public int user_id { get; set; }
 
             public ComboBoxItemData(string Name, string externalStoreId, string externalId, int userId)
@@ -103,6 +106,16 @@ namespace PryMercadoPagoQr
                 }
             }
         }
+
+
+
+
+
+
+
+        
+
+
 
 
         public static async Task<List<Result>> ObtenerInfoCajas(string accessToken)
